@@ -51,7 +51,7 @@ P^{-1}=
 * Since the Rotation Matrix is an orthogonal matrix, then it means it’s a square matrix where its transpose is equal to its inverse. Meaning we can spare some efforts by just calculating the transpose instead of the inverse.
 See that the normal translation vector has x, y as negative values and z as positive. When inverting the difference is not so big and the x, y change signals to positive. That's because in the inverted perspective the marker reference frame is rotated by 180 degrees around the x-axis, meaning x-y before inverting are flipped (hence, negative), all this considering the standard orientation of the aruco marker, if it was to be rotated, then obviously the signals would be different.
 \begin{center}
-  \includegraphics[scale=0.5]{invertrans.png}
+  \includegraphics[scale=0.5]{pictures/invertrans.png}
 \end{center}
 
 Meaning that the inverse translation and rotation vector we obtain is already the pose of the marker considering the following transformation (from camera to marker). Meaning we should be publishing as a PoseStamped message with the frame-id set to "marker". We then have to rotate it by 180 degrees so our grasping pose could be then correctly oriented.
@@ -63,7 +63,7 @@ There’s definitely difference between those transforms. A good way to think ab
 \\
 Some of the cases can be that there’s no difference on the Z-axis regardless the direction of the transformation, like this one:
 \begin{center}
-  \includegraphics[scale=0.5]{pic2.jpeg}
+  \includegraphics[scale=0.5]{pictures/pic2.jpeg}
   
   Figure 2: Realize that 0.53 is the same after inverting it, which is then 0.53.
 \end{center}
@@ -79,7 +79,7 @@ Doing the following:
 \end{alltt}
 Should return the correct pose of the marker wrt. world. Check the image below: (Figure 3)
 \begin{center}
-  \includegraphics[scale=0.3]{pic3.jpeg}
+  \includegraphics[scale=0.3]{pictures/pic3.jpeg}
 
   Figure 3:  On the left-hand side is the broadcasted message and right using tf-monitor to check the frames.
 \end{center}
@@ -95,20 +95,20 @@ Then we can convert the ROS messages recorded to .csv format by:
 \end{alltt}
 
 \begin{center}
-    \includegraphics[scale=0.5]{pic4.png}
+    \includegraphics[scale=0.5]{pictures/pic4.png}
     
     Figure 5: X detected values from the /TransformedPose topic
-    \includegraphics[scale=0.5]{pic5.png}
+    \includegraphics[scale=0.5]{pictures/pic5.png}
     
     Figure 6: Y detected values from the /TransformedPose topic
 \end{center}
 By extracting the x and y values from the grasp pose we can note a huge noise and applying a Gaussian Filter to both data sets don't bring any good. So we have to see how the data is been captured on the camera, i.e without any transform broadcaster and conversion, because the more operations we apply, more likely to the error to propagate. Therefore we do again the rosbag thing but with /aruco-single/pose which is the detection from the ROS package aruco-single.
 
 \begin{center}
-    \includegraphics[scale=0.5]{pic6.png}
+    \includegraphics[scale=0.5]{pictures/pic6.png}
     
     Figure 5: X detected values from the /aruco-single/pose topic
-    \includegraphics[scale=0.5]{pic7.png}
+    \includegraphics[scale=0.5]{pictures/pic7.png}
     
     Figure 6: Y detected values from the /aruco-single/pose topic
 \end{center}
@@ -116,10 +116,10 @@ By extracting the x and y values from the file we can see that there's practical
 \\
 Now, using the detection from a script written in Python.
 \begin{center}
-    \includegraphics[scale=0.5]{pic8.png}
+    \includegraphics[scale=0.5]{pictures/pic8.png}
     
     Figure 5: X detected values from the /ArucoPose
-    \includegraphics[scale=0.5]{pic9.png}
+    \includegraphics[scale=0.5]{pictures/pic9.png}
     
     Figure 6: Y detected values from the /ArucoPose
 \end{center}
@@ -127,10 +127,10 @@ Now, using the detection from a script written in Python.
 Using the same detection but with raw tvec and rvec, without applying any transformation. That means the raw values returned from the method estimateMarkerPose.
 
 \begin{center}
-    \includegraphics[scale=0.5]{pic12.png}
+    \includegraphics[scale=0.5]{pictures/pic12.png}
     
     Figure 5: X detected values from the /ArucoPose (RAW)
-    \includegraphics[scale=0.5]{pic13.png}
+    \includegraphics[scale=0.5]{pictures/pic13.png}
     
     Figure 6: Y detected values from the /ArucoPose (RAW)
 \end{center}
@@ -138,10 +138,10 @@ Using the same detection but with raw tvec and rvec, without applying any transf
 Applying gaussian filter with sigma = 5 does make a difference, but i don't know yet how good or bad this is.
 
 \begin{center}
-    \includegraphics[scale=0.5]{pic10.png}
+    \includegraphics[scale=0.5]{pictures/pic10.png}
     
     Figure 5: Applying Gaussian Filter on /TransformedPose X
-    \includegraphics[scale=0.5]{pic11.png}
+    \includegraphics[scale=0.5]{pictures/pic11.png}
     
     Figure 6: Applying Gaussian Filter on /TransformedPose Y
 \end{center}

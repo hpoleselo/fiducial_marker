@@ -15,7 +15,7 @@
 
  
 
-\title{Aruco Fiducial Marker Detection}
+\title{Fiducial Marker Detection}
 \author{Henrique Poleselo }
 \date{January 2019}
 
@@ -97,15 +97,20 @@ Should return the correct pose of the marker wrt. world. Check the image below: 
   Figure 3:  On the left-hand side is the broadcasted message and right using tf-monitor to check the frames.
 \end{center}
 
-\section{Running tests i.e Filtering}
-Since we're not getting the position we are expecting for the robot to grasp the object, we have to somehow debug this, i.e debug the grasping pose. So first things first is by recording the published pose from the topic /TransformedPose with aid of rosbag.
+\section{Results}
+Considering that the TF-Tree is correct and the pose we detect in RVIZ is the same as the pose we are seeing in real life. 
+So first things first is by recording the published pose from the topic /AlvarPose1 with aid of rosbag.
 \begin{alltt}
-    rosbag record /TransformedPose
+    rosbag record /AlvarPose1
 \end{alltt}
 Then we can convert the ROS messages recorded to .csv format by:
 \begin{alltt}
-    rostopic echo -b saved_tfd_pose.bag -p /TransformedPose
+    rostopic echo -b saved_tfd_pose.bag -p /AlvarPose1
 \end{alltt}
+
+
+\section{Filtering Noise}
+In case we're not getting the position we are expecting for the robot to grasp the object, we have to somehow debug this, i.e debug the grasping pose. Here are some results obtained from doing the same process as in the section 3.
 
 \begin{center}
     \includegraphics[scale=0.5]{pictures/pic4.png}
@@ -160,6 +165,5 @@ Applying gaussian filter with sigma = 5 does make a difference, but i don't know
 \end{center}
 
 See that the value varies from -0.705 to -0.735 and -0.06 to -0.11. Which gives way more precision around a value, although we KNOW that what we actually want is the value -0.85.
-
 
 \end{document}
